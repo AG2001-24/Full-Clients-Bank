@@ -177,6 +177,7 @@ public:
 
 	__declspec(property(get = GetAccountBalance, put = SetAccountBalance)) float AccountBalance;
 
+	
 	void Print()
 	{
 		cout << "\nClient Card:";
@@ -192,6 +193,8 @@ public:
 		cout << "\n___________________\n";
 
 	}
+	
+	
 
 	bool Delete() 
 	{

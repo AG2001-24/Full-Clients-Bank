@@ -3,8 +3,13 @@
 #include "clsScreen.h"
 #include "clsInputValidate.h"
 #include <iomanip>
-
-
+#include "clsBankClient.h"
+#include "clsClientListScreen.h"
+#include "clsAddNewClientScreen.h"
+#include "clsDeleteClientScreen.h"
+#include "clsUpdateClientScreen.h"
+#include "clsFindClientScreen.h"
+#include "clsTransactionsScreen.h"
 using namespace std;
 
 class clsMainScreen :protected clsScreen
@@ -35,40 +40,38 @@ private:
 
 	static void _ShowAllClientsScreen()
 	{
-		cout << "\nClient List Screen Will be here...\n";
-
-
+		clsClientListScreen::ShowClientsList();
 	}
 
 
 	static void _ShowAddNewClientsScreen()
 	{
-		cout << "\nAdd New Client Screen Will be here...\n";
-
+		
+		clsAddNewClientScreen::ShowAddNewClinet();
 	}
 
 	static void _ShowDeleteClientScreen()
 	{
-		cout << "\nDelete Client Screen Will be here...\n";
+		clsDeleteClientScreen::ShowDeleteClient();
 
 	}
 
 	static void _ShowUpdateClientScreen()
 	{
-		cout << "\nUpdate Client Screen Will be here...\n";
+		clsUpdateClientScreen::ShowUpdateClient();
 
 	}
 
 	static void _ShowFindClientScreen()
 	{
-		cout << "\nFind Client Screen Will be here...\n";
+		clsFindClientScreen::ShowFindClientScreen();
 
 	}
 
 	static void _ShowTransactionsMenue()
 	{
-		cout << "\nTransactions Menue Will be here...\n";
-
+		
+		clsTransactionsScreen::ShowTransactionsScreen();
 	}
 
 	static void _ShowManageUsersMenue()
@@ -121,6 +124,7 @@ private:
 		case enMainMenueOptions::eShowTransactionsMenue:
 			system("cls");
 			_ShowTransactionsMenue();
+			ShowMainMenue();
 			break;
 
 		case enMainMenueOptions::eManageUsers:
