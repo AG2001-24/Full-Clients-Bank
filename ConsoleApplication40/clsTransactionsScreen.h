@@ -5,8 +5,9 @@
 #include "clsInputValidate.h"
 #include "clsScreen.h"
 #include <iomanip>
-
-
+#include "clsDepositScreen.h"
+#include "clsWithdraw.h"
+#include "clsTotalBalancesScreen.h"
 
 using namespace std;
 class clsTransactionsScreen : protected clsScreen
@@ -25,19 +26,19 @@ private :
 	static void _ShowDepositScreen() 
 	{
 
-		cout << "\n Show Deposit Screen Will be here..\n";
+		clsDepositScreen::ShowDepositScreen();
 	}
 
 	static void _ShoWithdrawcreen()
 	{
 
-		cout << "\n Show Withdraw Screen Will be here..\n";
+		clsWithdraw::ShowWithdrawScreen();
 	}
 
 	static void _ShowTotalBalancetScreen()
 	{
 
-		cout << "\n Show Total Balance Screen Will be here..\n";
+		clsShowTotalBalancesScreen::ShowTotalBalancesScreen();
 	}
 
 	static void _GoBackMainMenueTransaction() 

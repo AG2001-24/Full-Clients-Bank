@@ -343,5 +343,29 @@ public:
 		return TotalBalance;
 	}
 
+	 void Deposit(float Amount) 
+	{
+		AccountBalance += Amount;
+
+		Save();
+	}
+
+	 bool Withdraw(float Amount)
+	 {
+		 if (AccountBalance < Amount)
+		 {
+			 return false;
+		 }
+		 else
+		 {
+			 AccountBalance -= Amount;
+
+			 Save();
+
+			 return true;
+		 }
+
+	 }
+
 };
 
