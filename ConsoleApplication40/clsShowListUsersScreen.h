@@ -7,15 +7,21 @@
 #include "clsManageUsers.h"
 #include "clsScreen.h"
 
+
 using namespace std;
 
 class clsShowListUsersScreen : protected clsScreen
 {
 	static void _PrintUserRecord(clsManageUsers User)
 	{
-		cout << "| " << left << setw(40) << User.Username();
-		cout << "| " << left << setw(20) << User.PinCode;
-		cout << "| " << left << setw(20) << User.Permissions;
+		cout << "| " << left << setw(20) << User.Username();
+		cout << "| " << left << setw(30) << User.FullName();
+		cout << "| " << left << setw(15) << User.Phone;
+		cout << "| " << left << setw(30) << User.Email;
+		cout << "| " << left << setw(15) << User.PinCode;
+		cout << "| " << left << setw(15) << User.Permissions;
+
+
 	}
 public:
 
@@ -31,19 +37,32 @@ public:
 
 		_DrawScreenHeader(Title,SubTitle);
 
-		cout << "\n____________________________________________________________________________________\n\n";
-		cout << "| " << left << setw(40) << "Username";
-		cout << "| " << left << setw(20) << "Password";
-		cout << "| " << left << setw(20) << "Permissions";
-		cout << "\n____________________________________________________________________________________\n";
+		cout << "\n________________________________________________________________________________________________________________________________________\n\n";
+		cout << "| " << left << setw(20) << "Usrname";
+		cout << "| " << left << setw(30) << "Full Name";
+		cout << "| " << left << setw(15) << "Phone";
+		cout << "| " << left << setw(30) << "Email";
+		cout << "| " << left << setw(15) << "Password";
+		cout << "| " << left << setw(15) << "Permissions";
+		cout << "\n________________________________________________________________________________________________________________________________________\n";
 
-		for (clsManageUsers &User : vUser)
+		if (vUser.size() == 0)
 		{
-			_PrintUserRecord(User);
-			cout << endl;
+			cout << "\t\t\tNo Clients Availabel In th System!\n";
 		}
+		else
+		{
+			for (clsManageUsers &User : vUser)
+			{
+				_PrintUserRecord(User);
+				cout << endl;
+			}
 
-		cout << "____________________________________________________________________________________\n";
+			cout << "________________________________________________________________________________________________________________________________________\n";
+
+		}
+		
+
 	}
 	
 };

@@ -20,7 +20,10 @@ private:
 	short _Month = 1;
 	short _Year = 1900;
 
+
 public:
+
+
 
 	clsDate()
 	{
@@ -29,6 +32,7 @@ public:
 		_Day = now->tm_mday;
 		_Month = now->tm_mon + 1;
 		_Year = now->tm_year + 1900;
+
 	}
 
 	clsDate(string sDate)
@@ -88,6 +92,26 @@ public:
 		return _Year;
 	}
 	__declspec(property(get = GetYear, put = SetYear)) short Year;
+
+	static string GetSystemDateTimeString()
+	{
+		time_t t = time(0);
+		tm *now = localtime(&t);
+
+		short Day, Month, Year, Hour, Minute, Second;
+
+		Day = now->tm_mday;
+		Month = now->tm_mon + 1;
+		Year = now->tm_year + 1900;
+
+		Hour = now->tm_hour;
+		Minute = now->tm_min;
+		Second = now->tm_sec;
+
+		return to_string(Day) + "/" + to_string(Month) + "/" + to_string(Year)
+			+ " - " + to_string(Hour) + ":" + to_string(Minute) + ":" + to_string(Second);
+
+	}
 
    void Print()
 	{
@@ -294,7 +318,7 @@ public:
 
 		string arrDayNames[] = { "Sun","Mon","Tue","Wed","Thu","Fri","Sat" };
 
-		return arrDayNames[DayOfWeekOrder(_Day, _Month, _Year)];
+		return arrDayNames[DayOfWeekOrder()];
 
 	}
 

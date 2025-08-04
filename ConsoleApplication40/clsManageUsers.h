@@ -10,14 +10,15 @@
 #include <vector>
 #include "clsString.h"
 #include <fstream>
+#include "clsUtil.h"
 
 using namespace std;
 
-class clsManageUsers {
+class clsManageUsers : public clsPerson {
 
 private:
 
-	enum enMode { eEmptyModeUser = 0, eUpdateModeUser = 1, eAddNewModeUser = 2 };
+	enum enMode { eEmptyMode = 0, eUpdateMode = 1, eAddNewMode = 2 };
 	enMode _Mode;
 
 	string _Username;
@@ -26,13 +27,28 @@ private:
 
 	bool _MarkForDelete = false;
 
+	string _PreparelLogInRecord(string Saparator="#//#") 
+	{
+		string LoginRecord = "";
+
+		LoginRecord += clsDate::GetSystemDateTimeString() + Saparator;
+		LoginRecord += _Username + Saparator;
+		LoginRecord += clsUtil::EncryptText( _PinCode,5) + Saparator;
+		LoginRecord += to_string(_Permissions);
+
+		return LoginRecord;
+	}
+
 	static string _ConvertUserObjectToLine(clsManageUsers UserObject, string Saparator = "#//#")
 	{
 
 		string Line = "";
-
+		Line += UserObject.FirstName + Saparator;
+		Line += UserObject.LastName + Saparator;
+		Line += UserObject.Email + Saparator;
+		Line += UserObject.Phone + Saparator;
 		Line += UserObject.Username() + Saparator;
-		Line += UserObject.PinCode + Saparator;
+		Line += clsUtil::EncryptText( UserObject.PinCode , 5) + Saparator;
 		Line += to_string(UserObject.Permissions);
 
 		return Line;
@@ -44,13 +60,13 @@ private:
 
 		vector <string> vUsers = clsString::Split(Line, Saparator);
 
-		return clsManageUsers(enMode::eUpdateModeUser, vUsers[0], vUsers[1], stoi(vUsers[2]));
+		return clsManageUsers(enMode::eUpdateMode, vUsers[0], vUsers[1], vUsers[2],  vUsers[3], vUsers[4],clsUtil::DecryptText( vUsers[5],5), stoi(vUsers[6]));
 
 	}
 
 	static clsManageUsers _GetEmptyObjectUser()
 	{
-		return clsManageUsers(enMode::eEmptyModeUser, "", "", 0);
+		return clsManageUsers(enMode::eEmptyMode, "", "", "", "", "", "", 0);
 	}
 
 	static void _AddNewUserToFile(string UserObject)
@@ -112,6 +128,7 @@ private:
 		}
 	}
 
+	
 	void _AddNewUser()
 	{
 		_AddNewUserToFile(_ConvertUserObjectToLine(*this));
@@ -137,8 +154,14 @@ private:
 
 public:
 
-	clsManageUsers(enMode Mode, string Username, string PinCode, short Permissions)
+	enum enPermissions {
+		eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
+		pUpdateClients = 8, pFindClient = 16, pTranactions = 32, pManageUsers = 64, pLoginRegister = 128
+	};
 
+
+	clsManageUsers(enMode Mode, string FirstName, string LastName, string Email, string Phone, string Username, string PinCode, short Permissions)
+		: clsPerson(FirstName,LastName,Email,Phone)
 	{
 		_Mode = Mode;
 		_PinCode = PinCode;
@@ -146,9 +169,21 @@ public:
 		_Permissions = Permissions;
 	}
 
+	bool CheckAccessPermission(enPermissions Permission)
+	{
+		if (this->Permissions == enPermissions::eAll)
+			return true;
+
+		if ((Permission & this->Permissions) == Permission)
+			return true;
+		else
+			return false;
+
+	}
+
 	bool IsEmpty()
 	{
-		return _Mode == enMode::eEmptyModeUser;
+		return _Mode == enMode::eEmptyMode;
 	}
 
 	string Username()
@@ -271,19 +306,19 @@ public:
 	{
 		switch (_Mode)
 		{
-		case enMode::eUpdateModeUser:
+		case enMode::eUpdateMode:
 		{
 			_UpdateUser();
 			return enSaveResults::svSucceeded;
 		}
 
-		case enMode::eEmptyModeUser:
+		case enMode::eEmptyMode:
 		{
 			return enSaveResults::svFaildEmptyObject;
 
 		}
 
-		case enMode::eAddNewModeUser:
+		case enMode::eAddNewMode:
 		{
 			if (clsManageUsers::IsUserExsist(Username()))
 			{
@@ -292,7 +327,7 @@ public:
 			else
 			{
 				_AddNewUser();
-				_Mode = enMode::eUpdateModeUser;
+				_Mode = enMode::eUpdateMode;
 				return enSaveResults::svSucceeded;
 			}
 		}
@@ -310,12 +345,29 @@ public:
 
 	static clsManageUsers GetAddNewUser(string Username)
 	{
-		return clsManageUsers(enMode::eAddNewModeUser, Username, "", 0);
+		return clsManageUsers(enMode::eAddNewMode, "", "", "", "", Username, "", 0);
 	}
 
 	static vector <clsManageUsers> GetUsersList()
 	{
 		return _LoadDateUsersFromFile();
 	}
+
+	void RegisterLogin() 
+	{
+		string stDateLine = _PreparelLogInRecord();
+
+		fstream MyFile;
+
+		MyFile.open("RegisterLogin.txt", ios::out | ios::app);
+
+		if (MyFile.is_open())
+		{
+			MyFile << stDateLine << endl;
+			MyFile.close();
+		}
+	}
+
+	
 };
 

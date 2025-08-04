@@ -6,6 +6,7 @@
 #include "clsManageUsers.h"
 #include "clsScreen.h"
 
+
 using namespace std;
 
 class clsDeleteUser : clsScreen
@@ -16,7 +17,12 @@ private:
 	{
 		cout << "\nCard User";
 		cout << "\n-----------------------------";
+		cout << "\nFirst Name  : " << User.FirstName;
+		cout << "\nLast Name   : " << User.LastName;
 		cout << "\nUsername    : " << User.Username();
+		cout << "\nFull Name   : " << User.FullName();
+		cout << "\nPhone       : " << User.Phone;
+		cout << "\nEmail       : " << User.Email;
 		cout << "\nPassword    : " << User.PinCode;
 		cout << "\nPermissions : " << User.Permissions;
 		cout << "\n-----------------------------\n";
@@ -51,6 +57,8 @@ public:
 			if (User.Delete())
 			{
 				cout << "\nUser deleted successfully\n";
+
+				_Print(User);
 			}
 			else
 			{

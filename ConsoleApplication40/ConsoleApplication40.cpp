@@ -11,7 +11,9 @@
 #include <iomanip>
 #include "clsMainScreen.h"
 #include "clsManageUsers.h"
-
+#include "clsLoginScreen.h"
+#include "Golbal.h"
+#include "clsLoginRegister.h"
 using namespace std;
 
 
@@ -22,9 +24,16 @@ using namespace std;
 int main()
 {
 
-	clsMainScreen::ShowMainMenue();
+	while (true)
+	{
+		if (!clsLoginScreen::ShowLoginScreen())
+		{
+			break;
+		}
 
+	}
 	
+
 
     return 0;
 }

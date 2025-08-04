@@ -99,7 +99,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -156,6 +156,8 @@
     <ClInclude Include="clsFindClientScreen.h" />
     <ClInclude Include="clsFindUser.h" />
     <ClInclude Include="clsInputValidate.h" />
+    <ClInclude Include="clsLoginRegister.h" />
+    <ClInclude Include="clsLoginScreen.h" />
     <ClInclude Include="clsMainManageUsers.h" />
     <ClInclude Include="clsMainScreen.h" />
     <ClInclude Include="clsManageUsers.h" />
@@ -166,10 +168,13 @@
     <ClInclude Include="clsTotalBalancesScreen.h" />
     <ClInclude Include="clsString.h" />
     <ClInclude Include="clsTransactionsScreen.h" />
+    <ClInclude Include="clsTransferLogScreen.h" />
+    <ClInclude Include="clsTransferScreen.h" />
     <ClInclude Include="clsUpdateClientScreen.h" />
     <ClInclude Include="clsUpdateUser.h" />
     <ClInclude Include="clsUtil.h" />
     <ClInclude Include="clsWithdraw.h" />
+    <ClInclude Include="Golbal.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

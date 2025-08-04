@@ -116,6 +116,14 @@ public:
 	
 	static void ShowMainMenueUserScreen() 
 	{
+		if (!clsScreen::CheckAccessRights(clsManageUsers::enPermissions::pManageUsers))
+		{
+			cout << setw(37) << left << "" << "\n\tPress any key to go back to Main Menue...\n";
+
+			system("pause>0");
+			return;
+		}
+
 		system("cls");
 		_DrawScreenHeader("\tManage Users Screen");
 		

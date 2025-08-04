@@ -6,6 +6,7 @@
 #include "clsManageUsers.h"
 #include "clsScreen.h"
 
+
 using namespace std;
 
 class clsAddNewUser : clsScreen
@@ -14,46 +15,91 @@ private:
 
 	static short _ReadPermissions()
 	{
-		short arrNum[] = { 1,2,4,8,16,32,64 };
+		
 
 		short Permissions = 0;
 
 		char answer = 'n';
 
+		cout << "\nDo you want to giv full access? Y/N : ";
+		cin >> answer;
+
+		if (tolower(answer) == 'y')
+		{
+			return (short)clsManageUsers::enPermissions::eAll;
+		}
+
+		cout << "\nDo you want to giv access to |\n";
+
 		cout << "\nShow Client List ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 1 : 0;
+		if (tolower(answer) == 'y')
+		{
+		  Permissions += clsManageUsers::enPermissions::pListClients;
+		}
+
 
 		cout << "\nAdd New Client ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 2 : 0;
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pAddNewClient;
+		}
+
 
 		cout << "\nDelete Client ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 4 : 0;
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pDeleteClient;
+		}
+
 
 		cout << "\nUpdate Client Info ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 8 : 0;
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pUpdateClients;
+		}
+
 
 		cout << "\nFind Client ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 16 : 0;
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pFindClient;
+		}
+
 
 		cout << "\nTransaction ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 32 : 0;
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pTranactions;
+		}
 
-		cout << "\nManage Users ? Y/N :  ";
+
+		cout << "\nManage Users  ? Y/N :  ";
 		cin >> answer;
 
-		Permissions += tolower(answer) == 'y' ? 64 : 0;
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pManageUsers;
+		}
+
+		cout << "\nLogin Register  ? Y/N :  ";
+		cin >> answer;
+
+		if (tolower(answer) == 'y')
+		{
+			Permissions += clsManageUsers::enPermissions::pLoginRegister;
+		}
 
 
 		return Permissions;
@@ -61,38 +107,40 @@ private:
 
 	static void _ReadUser(clsManageUsers &User)
 	{
-		cout << "\nPlease Enter Pincode : ";
-		User.PinCode = clsInputValidate::ReadString();
+
 
 		char answer = 'n';
 
 
-		if (User.Username() == "admin")
-		{
-			return;
-		}
+		cout << "\nPlease Enter First Name : ";
+		User.FirstName = clsInputValidate::ReadString();
 
-		cout << "\nDo you want to give all permissions? Y/N : ";
-		cin >> answer;
-		cout << endl;
+		cout << "\nPlease Enter Last Name : ";
+		User.LastName = clsInputValidate::ReadString();
 
+		cout << "\nPlease Enter Email : ";
+		User.Email = clsInputValidate::ReadString();
 
+		cout << "\nPlease Enter Phone  : ";
+		User.Phone = clsInputValidate::ReadString();
 
-		if (tolower(answer) == 'y')
-		{
-			User.Permissions = -1;
-		}
-		else
-		{
-			User.Permissions = _ReadPermissions();
-		}
+		cout << "\nPlease Enter Password : ";
+		User.PinCode =clsInputValidate::ReadString();
+
+		User.Permissions = _ReadPermissions();
+		
 	}
 	
 	static void _Print(clsManageUsers User)
 	{
 		cout << "\nCard User";
 		cout << "\n-----------------------------";
+		cout << "\nFirst Name  : " << User.FirstName;
+		cout << "\nLast Name   : " << User.LastName;
 		cout << "\nUsername    : " << User.Username();
+		cout << "\nFull Name   : " << User.FullName();
+		cout << "\nPhone       : " << User.Phone;
+		cout << "\nEmail       : " << User.Email;
 		cout << "\nPassword    : " << User.PinCode;
 		cout << "\nPermissions : " << User.Permissions;
 		cout << "\n-----------------------------\n";
@@ -103,7 +151,7 @@ public:
 	static void AddNewUserScreen()
 	{
 
-		_DrawScreenHeader("Add New User Screen");
+		_DrawScreenHeader("\t Add New User Screen");
 
 		string Username = "";
 
